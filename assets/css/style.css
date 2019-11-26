@@ -5,3 +5,19 @@ textarea {
     resize: none;
     background-color: aqua;
 }
+
+hr {
+    background-color: black;
+}
+
+.past {
+    background-color: grey;
+}
+
+.present {
+    background-color: red;
+}
+
+.future {
+    background-color: green;
+}
