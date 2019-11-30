@@ -11,7 +11,8 @@ The two buttons at the bottom are to clear the the current data, clear simply em
 # Built with
 
 Bootstrap\
-Jquery
+Jquery\
+Moment.js
 
 # Authors 
 
@@ -22,3 +23,4 @@ Edward Coad
 bootstrap.com\
 stackoverflow.com\
 w3school.com\
+momentjs.com
