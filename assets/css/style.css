@@ -5,12 +5,20 @@ textarea {
     resize: none;
 }
 
+form {
+    margin-bottom: 50px;
+}
+
 hr {
     background-color: black;
 }
 
+.save-button {
+    background-color: salmon;
+}
+
 .past {
-    background-color: grey;
+    background-color: lightgrey;
 }
 
 .present {

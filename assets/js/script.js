@@ -1,5 +1,31 @@
 var planner = $(".day-planner");
+var hour = moment().format('HH');
+
+//Array for time values, to increase the day planner simply add the new time to the array and everything will dynamically update
 var time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
+
+//Function to check if the hour has changed --- not working
+function hourChecker() {
+    var currentHour = hour;
+    setInterval(function(){
+        hour = moment().format('HH');
+        if(currentHour !== hour) {
+            currentHour = hour;
+            location.reload();
+        }
+    }, 10000)
+}
+
+hourChecker();
+
+//Function to check if the day has changed upon opening and clears local storage if it's a new day
+function dayChecker() {
+    if(localStorage.getItem("date")!==moment().format("DD")) {
+        localStorage.clear();
+    }
+}
+
+dayChecker();
 
 function dateDisplay(){
     $(".time-date").text(moment().format('dddd Do MMMM')); 
@@ -7,6 +33,7 @@ function dateDisplay(){
 
 dateDisplay();
 
+//Function to dynamically display the planner
 function listDisplay(){
     for(i=0; i<time.length; i++) {
         
@@ -18,6 +45,7 @@ function listDisplay(){
 
         //Create a row for each time period
         row.attr("class", "row");
+        row.attr("style", "margin-bottom:10px;")
 
         //Creating the space for the time display
         column.attr("class", "col-sm-1 text-center");
@@ -27,17 +55,20 @@ function listDisplay(){
         column.text(time[i]);
 
         //Creating text area input
-        input.attr("class", "col-sm-10 inputarea");
+        input.attr("class", "col-sm-9 inputarea");
         input.attr("style", "width:100%; height:100%; resize:none;");
         input.attr("id", "textarea"+i);
 
         //Creating the area for the save button
-        save.attr("class", "col-sm-1 text-center save");
+        save.attr("class", "col-sm-2 text-center save");
+        
 
         //Creating the save button
         button.text("Save");
+        button.attr("class", "save-button");
         button.attr("id", i);
-        
+        button.attr("style", "height:90%; width:100%;");
+
         row.append(column);
         row.append(input);
         row.append(save);
@@ -45,7 +76,7 @@ function listDisplay(){
         planner.append(row);
     }
 
-    //Creating clear button
+    //Creating clear buttons
     var row = $("<div>");
     var clearAllB = $("<button>");
     var clearB = $("<button>");
@@ -58,6 +89,7 @@ function listDisplay(){
     clearAllB.attr("style", "margin-top:10px; margin-left:50%; transform:translate(-50%);")
     clearAllB.text("Clear All");
 
+    //Appending the buttons
     row.append(clearB);
     row.append(clearAllB);
     planner.append(row);
@@ -75,7 +107,7 @@ function loadSaved(){
 loadSaved();
 
 //Variable to determine the current time/hour
-var currentTime = moment().format('HH');
+var currentTime = hour;
 
 //function to get the first number of the time array inputs and check if there is a second
 function timeCheck(i){
@@ -103,13 +135,13 @@ function currentDisplay(){
 
     for(i=0; i<time.length; i++){
         if(amPmChecker(i) < currentTime){
-            $("#textarea"+i).attr("class", "col-sm-10 inputarea past");
+            $("#textarea"+i).attr("class", "col-sm-9 inputarea past");
         }
         else if(amPmChecker(i) == currentTime){
-            $("#textarea"+i).attr("class", "col-sm-10 inputarea present");  
+            $("#textarea"+i).attr("class", "col-sm-9 inputarea present");  
         }
         else if(amPmChecker(i) > currentTime){
-            $("#textarea"+i).attr("class", "col-sm-10 inputarea future"); 
+            $("#textarea"+i).attr("class", "col-sm-9 inputarea future"); 
         }
     }
 }
@@ -121,10 +153,12 @@ $(".save").on("click", function(event){
     var save = event.target.id;
     var time = $("#time"+save).text();
     var input = $("#textarea"+save).val();
+    var day = moment().format('DD');
+    localStorage.setItem("date", day);
     localStorage.setItem(time, input);
 })
 
-//A button to clear all current textarea input, local storage isn't touched
+//Button to clear all current textarea input and local storage 
 $(".clearAll-button").on("click", function(){
     if(confirm("Warning this will clear all current inputs and local storage as well, do you wish to proceed?")) {
         $(".inputarea").val("");
@@ -132,6 +166,7 @@ $(".clearAll-button").on("click", function(){
     }
 })
 
+//Button to clear just the current inputs, upon refresh local storage values will still be inserted
 $(".clear-button").on("click", function(){
     $(".inputarea").val("");
 })
