@@ -48,14 +48,14 @@ function listDisplay(){
         row.attr("style", "margin-bottom:10px;")
 
         //Creating the space for the time display
-        column.attr("class", "col-sm-1 text-center");
+        column.attr("class", "col-sm-2 text-center");
         column.attr("id", "time"+i);
         
         column.attr("style", "background-color:white;");
         column.text(time[i]);
 
         //Creating text area input
-        input.attr("class", "col-sm-9 inputarea");
+        input.attr("class", "col-sm-8 inputarea");
         input.attr("style", "width:100%; height:100%; resize:none;");
         input.attr("id", "textarea"+i);
 
@@ -135,13 +135,13 @@ function currentDisplay(){
 
     for(i=0; i<time.length; i++){
         if(amPmChecker(i) < currentTime){
-            $("#textarea"+i).attr("class", "col-sm-9 inputarea past");
+            $("#textarea"+i).attr("class", "col-sm-8 inputarea past");
         }
         else if(amPmChecker(i) == currentTime){
-            $("#textarea"+i).attr("class", "col-sm-9 inputarea present");  
+            $("#textarea"+i).attr("class", "col-sm-8 inputarea present");  
         }
         else if(amPmChecker(i) > currentTime){
-            $("#textarea"+i).attr("class", "col-sm-9 inputarea future"); 
+            $("#textarea"+i).attr("class", "col-sm-8 inputarea future"); 
         }
     }
 }
