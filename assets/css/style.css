@@ -1,3 +1,4 @@
+/*CSS for day planner*/
 textarea {
     width:100%;
     height:100%;
@@ -27,4 +28,39 @@ hr {
 
 .future {
     background-color: green;
+}
+
+/*CSS for month planner*/
+h1, h2, h3 {
+    display:inline-block;
+}
+
+.monthNavigation {
+    background-color: lightblue;
+    border: 1px solid black;
+}
+
+.month-planner {
+    border: 1px solid black;
+}
+
+.hover {
+    background-color:lightgrey; 
+    height:100px;
+    background-clip: content-box;
+}
+
+#previousMonth, #nextMonth {
+    color: white;
+}
+
+#previousMonth:hover, #nextMonth:hover {
+    color: red;
+}
+
+.weekday {
+    background-color: lightcyan;
+    min-height: 50px;
+    padding-top: 12px;
+    border-bottom: 1px solid black;
 }

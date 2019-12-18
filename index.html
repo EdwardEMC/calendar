@@ -4,33 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Day planner</title>
+    <title>Calender</title>
 
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
     <script src="assets/js/jquery-3.4.1.js"></script>
     <script src="assets/js/moment.js"></script>
-</head>
+    <script src="assets/js/script2.js"></script>
 
+</head>
 <body>
+    <br>
     <header class="container">
-        <div class="title">
-            <h1 class="text-center">Work Day Schedule</h1>
-            <h4 class="text-center">A simple application to manage your day</h4>
-            <h4 class="text-center time-date"></h4>
-            <hr>
+        <a href="../portfolio.html">Home</a>
+        <div class="monthNavigation d-flex justify-content-around align-items-center">
+                <h3 id="previousMonth">Previous</h3>
+                <h1 class="time-date"></h1>
+                <h3 id=nextMonth>Next</h3>
         </div>
     </header>
 
     <div class="wrapper">
-        <div class="contianer">
-            <div class="day-planner">
-               
+        <div class="container">
+            <div class="month-planner">
+                <div class="row text-center no-gutters">
+                    <div class="col-sm weekday">
+                        Sunday
+                    </div>
+                    <div class="col-sm weekday">
+                        Monday
+                    </div>
+                    <div class="col-sm weekday">
+                        Tuesday
+                    </div>
+                    <div class="col-sm weekday">
+                        Wednesday
+                    </div>
+                    <div class="col-sm weekday">
+                        Thursday
+                    </div>
+                    <div class="col-sm weekday">
+                        Friday
+                    </div>
+                    <div class="col-sm weekday">
+                        Saturday
+                    </div>
+                </div>              
+                <div class="monthDisplay">
+                    <!--Display area for days-->
+                </div>
             </div>
         </div>
     </div>
-    
-    <script src="assets/js/script.js"></script>
 </body>
 </html>

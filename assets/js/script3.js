@@ -1,27 +1,12 @@
 $(document).ready(function(){
     var planner = $(".day-planner");
-    var hour = moment().format('HH');
     var selectedDay = sessionStorage.getItem("selectedDay")
 
     //Array for time values, to increase the day planner simply add the new time to the array and everything will dynamically update
     var time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
 
-    //Function to check if the hour has changed
-    function hourChecker() {
-        var currentHour = hour;
-        setInterval(function() {
-            hour = moment().format('HH');
-            if(currentHour !== hour) {
-                currentHour = hour;
-                location.reload();
-            }
-        }, 10000)
-    }
-
-    hourChecker();
-
     function dateDisplay() {
-        $(".time-date").text(moment().format('dddd Do MMMM')); 
+        $(".time-date").text(selectedDay); 
     }
 
     dateDisplay();
@@ -77,11 +62,11 @@ $(document).ready(function(){
         row.addClass("d-flex justify-content-center");
 
         clearB.attr("class", "clear-button bg-primary");
-        clearB.attr("style", "margin-top:10px;");
+        clearB.attr("style", "margin-top:10px; display:inline-block;")
         clearB.text("Clear");
 
         clearAllB.attr("class", "clearAll-button bg-danger");
-        clearAllB.attr("style", "margin-top:10px;");
+        clearAllB.attr("style", "margin-top:10px; display:inline-block;")
         clearAllB.text("Clear All");
 
         //Appending the buttons
@@ -99,48 +84,6 @@ $(document).ready(function(){
     }
 
     loadSaved();
-
-    //Variable to determine the current time/hour
-    var currentTime = hour;
-
-    //function to get the first number of the time array inputs and check if there is a second
-    function timeCheck(i){
-        if(time[i].charAt(1)===":") {
-            //amPmChecker();
-            return parseInt(time[i].charAt(0));
-        }
-        else {
-            //amPmChecker();
-            return parseInt(time[i].charAt(0)+time[i].charAt(1));
-        }
-    }
-
-    //function to check AM/PM and return result in 24 hour time
-    function amPmChecker(i){
-        if(time[i].charAt(time[i].length-2)==="p")
-            return timeCheck(i)+12;
-        else {
-            return timeCheck(i);
-        }
-    }
-
-    //Function to use the current time and add/subtract classes to textarea's to show whether the time has passed, current or future
-    function currentDisplay() {
-
-        for(i=0; i<time.length; i++) {
-            if(amPmChecker(i) < currentTime) {
-                $("#textarea"+i).attr("class", "col-sm-8 inputarea past");
-            }
-            else if(amPmChecker(i) == currentTime) {
-                $("#textarea"+i).attr("class", "col-sm-8 inputarea present");  
-            }
-            else if(amPmChecker(i) > currentTime) {
-                $("#textarea"+i).attr("class", "col-sm-8 inputarea future"); 
-            }
-        }
-    }
-
-    currentDisplay();
 
     //Event listener on the save button to save any textarea value to the local storage
     $(".save").on("click", function(event) {
