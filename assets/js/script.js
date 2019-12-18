@@ -71,7 +71,6 @@ $(document).ready(function(){
 
         //Creating clear buttons
         var row = $("<div>");
-        var clearAllB = $("<button>");
         var clearB = $("<button>");
 
         row.addClass("d-flex justify-content-center");
@@ -80,12 +79,8 @@ $(document).ready(function(){
         clearB.attr("style", "margin-top:10px;");
         clearB.text("Clear");
 
-        clearAllB.attr("class", "clearAll-button bg-danger");
-        clearAllB.attr("style", "margin-top:10px;");
-        clearAllB.text("Clear All");
-
         //Appending the buttons
-        row.append(clearB,clearAllB);
+        row.append(clearB);
         planner.append(row);
     }
 
@@ -142,6 +137,19 @@ $(document).ready(function(){
 
     currentDisplay();
 
+    //function to delete only the relavent data in the localstorage
+    function deleteSpecific() {
+        var specificDay = [];
+        for (var key in localStorage){
+            if(key.includes(selectedDay)) {
+                specificDay.push(key);
+            }
+        }
+        for(z=0; z<specificDay.length; z++) {
+            localStorage.removeItem(specificDay[z]);
+        }
+    }
+
     //Event listener on the save button to save any textarea value to the local storage
     $(".save").on("click", function(event) {
         var save = event.target.id;
@@ -150,16 +158,9 @@ $(document).ready(function(){
         localStorage.setItem(time+selectedDay, input);
     });
 
-    //Button to clear all current textarea input and local storage 
-    $(".clearAll-button").on("click", function() {
-        if(confirm("Warning this will clear all current inputs and local storage as well, do you wish to proceed?")) {
-            $(".inputarea").val("");
-            localStorage.clear(); //change so only the specific local storage is cleared
-        }
-    });
-
     //Button to clear just the current inputs, upon refresh local storage values will still be inserted
     $(".clear-button").on("click", function() {
         $(".inputarea").val("");
+        deleteSpecific();
     });
 });

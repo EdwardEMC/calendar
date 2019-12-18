@@ -2,12 +2,27 @@ $(document).ready(function(){
     var month = $(".monthDisplay");
     var m = 0; //counter for next and previous months
     var today = moment().format("DD-MMMM-YYYY");
-    console.log(today);
     
     dateDisplay();
     displayGrid();
     todayFocus();
     hover();
+    checkLocal();
+
+    //function to detect if anything is in local storage ---- a variation may also be used to delete certain items
+    function checkLocal() {
+        var entries = [];
+        for (var key in localStorage){
+            if((key.includes("-2019")||(key.includes("-2020")))) {
+                entries.push(key);
+            }
+        }
+        for(z=0; z<entries.length; z++) {
+            var mIndex = entries[z].indexOf("m");
+            var info = entries[z].slice(mIndex+1);
+            $("#"+info).addClass("information");
+        }
+    }
 
     //display the current month on the initial calender landing page
     function dateDisplay() {
@@ -79,6 +94,15 @@ $(document).ready(function(){
                 $(".row"+r).append(box);
             }
         }
+
+        //Creating a clear all button
+        var clearAllB = $("<button>");
+
+        clearAllB.attr("class", "clearAll-button bg-danger");
+        clearAllB.attr("style", "margin-top:10px; display:inline-block;")
+        clearAllB.text("Clear All");
+
+        $(".clearAll").append(clearAllB);
     }
 
     //function to make the current day a different color
@@ -90,20 +114,24 @@ $(document).ready(function(){
     $("#nextMonth").on("click", function() {
         m++;
         month.empty();
+        $(".clearAll").empty();
         dateDisplay();
         displayGrid();
         todayFocus();
         hover();
+        checkLocal();
     });
 
     //onclick function for previous button
     $("#previousMonth").on("click", function() {
         m--;
         month.empty();
+        $(".clearAll").empty();
         dateDisplay();
         displayGrid();
         todayFocus();
         hover();
+        checkLocal();
     });
 
     //onclick function for days in the month
@@ -130,4 +158,12 @@ $(document).ready(function(){
             $(this).removeClass("hover");
         });
     }  
+
+    //Button to clear all current textarea input and local storage 
+    $(".clearAll-button").on("click", function() {
+        if(confirm("Warning this will clear all current inputs and local storage as well, do you wish to proceed?")) {
+            $(".inputarea").val("");
+            localStorage.clear(); //change so only the specific local storage is cleared
+        }
+    });
 });
