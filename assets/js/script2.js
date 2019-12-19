@@ -166,4 +166,18 @@ $(document).ready(function(){
             localStorage.clear(); //change so only the specific local storage is cleared
         }
     });
+
+    //
+    function myFunction(x) {
+        if (x.matches) {
+            $(".weekdays").addClass("invisible");
+        }
+        else {
+            $(".weekdays").removeClass("invisible");
+        }
+      }
+      
+      var x = window.matchMedia("(max-width: 576px)");
+      myFunction(x);
+      x.addListener(myFunction);
 });
