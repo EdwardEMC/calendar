@@ -1,16 +1,15 @@
-$(document).ready(function(){
-    var planner = $(".day-planner");
-    var hour = moment().format('HH');
-    var selectedDay = sessionStorage.getItem("selectedDay")
+$(document).ready(() => {
+    const planner = $(".day-planner");
+    const hour = moment().format('HH');
+    let selectedDay = sessionStorage.getItem("selectedDay")
 
     //Array for time values, to increase the day planner simply add the new time to the array and everything will dynamically update
-    var time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
+    let time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
 
     //Function to check if the hour has changed
-    function hourChecker() {
-        var currentHour = hour;
-        setInterval(function() {
-            hour = moment().format('HH');
+    const hourChecker = () => {
+        let currentHour = hour;
+        setInterval(() => {
             if(currentHour !== hour) {
                 currentHour = hour;
                 location.reload();
@@ -20,21 +19,19 @@ $(document).ready(function(){
 
     hourChecker();
 
-    function dateDisplay() {
-        $(".time-date").text(moment().format('dddd Do MMMM')); 
-    }
+    const dateDisplay = () => $(".time-date").text(moment().format('dddd Do MMMM')); 
 
     dateDisplay();
 
     //Function to dynamically display the planner
-    function listDisplay() {
+    const listDisplay = () => {
         for(i=0; i<time.length; i++) {
             
-            var row = $("<div>");
-            var column = $("<div>");
-            var input = $("<textarea>");
-            var save = $("<div>");
-            var button = $("<button>")
+            let row = $("<div>");
+            let column = $("<div>");
+            let input = $("<textarea>");
+            let save = $("<div>");
+            let button = $("<button>")
 
             //Create a row for each time period
             row.attr("class", "row");
@@ -70,8 +67,8 @@ $(document).ready(function(){
         }
 
         //Creating clear buttons
-        var row = $("<div>");
-        var clearB = $("<button>");
+        let row = $("<div>");
+        let clearB = $("<button>");
 
         row.addClass("d-flex justify-content-center");
 
@@ -87,7 +84,7 @@ $(document).ready(function(){
     listDisplay();
 
     //Function to load any local storage saved data into the textareas
-    function loadSaved() {
+    const loadSaved = () => {
         for(i=0; i<time.length; i++) {
             $("#textarea"+i).val(localStorage.getItem(time[i]+selectedDay));
         }
@@ -96,10 +93,10 @@ $(document).ready(function(){
     loadSaved();
 
     //Variable to determine the current time/hour
-    var currentTime = hour;
+    const currentTime = hour;
 
     //function to get the first number of the time array inputs and check if there is a second
-    function timeCheck(i){
+    const timeCheck = i => {
         if(time[i].charAt(1)===":") {
             //amPmChecker();
             return parseInt(time[i].charAt(0));
@@ -111,7 +108,7 @@ $(document).ready(function(){
     }
 
     //function to check AM/PM and return result in 24 hour time
-    function amPmChecker(i){
+    const amPmChecker = i => {
         if(time[i].charAt(time[i].length-2)==="p")
             return timeCheck(i)+12;
         else {
@@ -120,7 +117,7 @@ $(document).ready(function(){
     }
 
     //Function to use the current time and add/subtract classes to textarea's to show whether the time has passed, current or future
-    function currentDisplay() {
+    const currentDisplay = () => {
 
         for(i=0; i<time.length; i++) {
             if(amPmChecker(i) < currentTime) {
@@ -138,9 +135,9 @@ $(document).ready(function(){
     currentDisplay();
 
     //function to delete only the relavent data in the localstorage
-    function deleteSpecific() {
-        var specificDay = [];
-        for (var key in localStorage){
+    const deleteSpecific = () => {
+        const specificDay = [];
+        for (let key in localStorage){
             if(key.includes(selectedDay)) {
                 specificDay.push(key);
             }
@@ -151,15 +148,15 @@ $(document).ready(function(){
     }
 
     //Event listener on the save button to save any textarea value to the local storage
-    $(".save").on("click", function(event) {
-        var save = event.target.id;
-        var time = $("#time"+save).text();
-        var input = $("#textarea"+save).val();
+    $(".save").on("click", event => {
+        let save = event.target.id;
+        let time = $("#time"+save).text();
+        let input = $("#textarea"+save).val();
         localStorage.setItem(time+selectedDay, input);
     });
 
     //Button to clear just the current inputs, upon refresh local storage values will still be inserted
-    $(".clear-button").on("click", function() {
+    $(".clear-button").on("click", () => {
         $(".inputarea").val("");
         deleteSpecific();
     });

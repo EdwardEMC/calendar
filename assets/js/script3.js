@@ -1,25 +1,23 @@
-$(document).ready(function(){
-    var planner = $(".day-planner");
-    var selectedDay = sessionStorage.getItem("selectedDay")
+$(document).ready(() => {
+    const planner = $(".day-planner");
+    const selectedDay = sessionStorage.getItem("selectedDay")
 
     //Array for time values, to increase the day planner simply add the new time to the array and everything will dynamically update
-    var time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
+    let time = ["9:00am", "10:00am", "11:00am", "12:00am", "1:00pm", "2:00pm", "3:00pm", "4:00pm", "5:00pm"];
 
-    function dateDisplay() {
+    const dateDisplay = () => {
         $(".time-date").text(selectedDay); 
     }
 
-    dateDisplay();
-
     //Function to dynamically display the planner
-    function listDisplay() {
+    const listDisplay = () => {
         for(i=0; i<time.length; i++) {
             
-            var row = $("<div>");
-            var column = $("<div>");
-            var input = $("<textarea>");
-            var save = $("<div>");
-            var button = $("<button>")
+            let row = $("<div>");
+            let column = $("<div>");
+            let input = $("<textarea>");
+            let save = $("<div>");
+            let button = $("<button>")
 
             //Create a row for each time period
             row.attr("class", "row");
@@ -55,8 +53,8 @@ $(document).ready(function(){
         }
 
         //Creating clear buttons
-        var row = $("<div>");
-        var clearB = $("<button>");
+        let row = $("<div>");
+        let clearB = $("<button>");
 
         row.addClass("d-flex justify-content-center");
 
@@ -69,21 +67,17 @@ $(document).ready(function(){
         planner.append(row);
     }
 
-    listDisplay();
-
     //Function to load any local storage saved data into the textareas
-    function loadSaved() {
+    const loadSaved = () => {
         for(i=0; i<time.length; i++) {
             $("#textarea"+i).val(localStorage.getItem(time[i]+selectedDay));
         }
     }
 
-    loadSaved();
-
     //function to delete only the relavent data in the localstorage
-    function deleteSpecific() {
-        var specificDay = [];
-        for (var key in localStorage){
+    const deleteSpecific = () => {
+        const specificDay = [];
+        for (let key in localStorage){
             if(key.includes(selectedDay)) {
                 specificDay.push(key);
             }
@@ -94,16 +88,21 @@ $(document).ready(function(){
     }
 
     //Event listener on the save button to save any textarea value to the local storage
-    $(".save").on("click", function(event) {
-        var save = event.target.id;
-        var time = $("#time"+save).text();
-        var input = $("#textarea"+save).val();
+    $(".save").on("click", event => {
+        let save = event.target.id;
+        let time = $("#time"+save).text();
+        let input = $("#textarea"+save).val();
         localStorage.setItem(time+selectedDay, input);
     });
 
     //Button to clear just the current inputs, upon refresh local storage values will still be inserted
-    $(".clear-button").on("click", function() {
+    $(".clear-button").on("click", () => {
         $(".inputarea").val("");
         deleteSpecific();
     });
+
+    dateDisplay();
+    listDisplay();
+    loadSaved();
+
 });
